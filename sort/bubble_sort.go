@@ -19,7 +19,7 @@ func BubbleSort[T Number](arr []T) []T {
 	return arr
 }
 
-// 冒泡排序分解步骤
+// 推导
 func BubbleSortStep[T Number](arr []T) {
 	n := len(arr)
 
