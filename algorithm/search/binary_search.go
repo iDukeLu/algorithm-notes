@@ -1,6 +1,7 @@
 package search
 
 // 二分查找法
+// TODO，补充定义和思想
 func BinarySearch(nums []int, num int) int {
 	return BinarySearch4(nums, num)
 }

@@ -68,30 +68,19 @@ func twoSum(nums []int, target int) []int {
 		return []int{}
 	}
 
-	// 使用 `二分查找` 查找 y
-	indexByBinarySearch := func(nums []int, num int) int {
-		startIndex := 0
-		endIndex := len(nums) - 1
-		for startIndex <= endIndex {
-			i := (startIndex + endIndex) / 2
-			if nums[i] == num {
-				return i
-			}
-			if nums[i] > num {
-				endIndex = i - 1
-			} else {
-				startIndex = i + 1
-			}
-		}
-		return -1
+	// 构造一个 Map，key: num，value: index
+	m := make(map[int]int)
+	for i, n := range nums {
+		m[n] = i
 	}
 
 	// 不断改变固定的 x
 	for i := 0; i < len(nums); i++ {
-		// 使用 `线性查找` 查找 y
-		j := indexByBinarySearch(nums, target-nums[i])
-		if j != i && j != -1 {
-			return []int{i, j}
+		// 使用 `Map` 查找 y
+		if j, ok := m[target-nums[i]]; ok {
+			if j != i {
+				return []int{i, j}
+			}
 		}
 	}
 	return []int{}
@@ -111,7 +100,9 @@ func twoSum(nums []int, target int) []int {
 //			- 使用 `二分查找` 查找 y，复杂度为logn，整体复杂度为 nlogn（还需要先排序，太麻烦了）
 //		此外，还可以考虑
 //			- 是否能够降低 `不断改变固定的 x` 复杂度
-// 			- 在查找 y 的时候，除了使用数组的查找方式，是否可以将数组构建成其他数据结构来查找，降低复杂度
+// 			- 在查找 y 的时候，除了使用数组的查找方式，是否可以将数组构建成其他适合查找的数据结构来查找，降低复杂度
+
+// 总结：对于查找问题，可以使用常规的查找手段，也可以将数据转换为适合查找的数据结构来解决
 
 // 求解1：使用线性查找求解，也就是所谓的暴力查找，整体时间复杂度为 n^2
 func TwoSumLinearSearch(nums []int, target int) []int {
