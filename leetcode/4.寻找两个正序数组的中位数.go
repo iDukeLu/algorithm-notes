@@ -56,7 +56,26 @@ package leetcode
 
 // @lc code=start
 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
-	return 0
+	length := len(nums1) + len(nums2)
+	merged := make([]int, 0, length)
+	i, j := 0, 0
+
+	for i < len(nums1) && j < len(nums2) {
+		if nums1[i] < nums2[j] {
+			merged = append(merged, nums1[i])
+			i++
+		} else {
+			merged = append(merged, nums2[j])
+			j++
+		}
+	}
+	merged = append(merged, nums1[i:]...)
+	merged = append(merged, nums2[j:]...)
+
+	if length%2 == 0 {
+		return float64(merged[length/2-1]+merged[length/2]) / 2
+	}
+	return float64(merged[length/2])
 }
 
 // @lc code=end
@@ -64,3 +83,29 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 // 关键字：
 // - 正序：说明已经排好序
 // - 中位数：一个数值集合中的一个中间值
+
+// 暴力求解：先合并两个数组，然后返回中位数
+// 但是时间复杂度为：O(m+n) 不满足题目要求
+// 进一步降低时间复杂度需使用二分法
+func force_findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
+	length := len(nums1) + len(nums2)
+	merged := make([]int, 0, length)
+	i, j := 0, 0
+
+	for i < len(nums1) && j < len(nums2) {
+		if nums1[i] < nums2[j] {
+			merged = append(merged, nums1[i])
+			i++
+		} else {
+			merged = append(merged, nums2[j])
+			j++
+		}
+	}
+	merged = append(merged, nums1[i:]...)
+	merged = append(merged, nums2[j:]...)
+
+	if length%2 == 0 {
+		return float64(merged[length/2-1]+merged[length/2]) / 2
+	}
+	return float64(merged[length/2])
+}
