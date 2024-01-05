@@ -67,25 +67,25 @@ package leetcode
 
 // @lc code=start
 func uniquePaths(m int, n int) int {
-	dp := make([][]int, m+1)
+	dp := make([][]int, m)
 	for i := range dp {
-		dp[i] = make([]int, n+1)
+		dp[i] = make([]int, n)
 	}
 
-	for i := 1; i <= m; i++ {
-		dp[i][1] = 1
+	for i := 0; i < m; i++ {
+		dp[i][0] = 1
 	}
-	for i := 1; i <= n; i++ {
-		dp[1][i] = 1
+	for i := 0; i < n; i++ {
+		dp[0][i] = 1
 	}
 
-	for i := 2; i <= m; i++ {
-		for j := 2; j <= n; j++ {
+	for i := 1; i < m; i++ {
+		for j := 1; j < n; j++ {
 			dp[i][j] = dp[i-1][j] + dp[i][j-1]
 		}
 	}
 
-	return dp[m][n]
+	return dp[m-1][n-1]
 }
 
 // @lc code=end
@@ -98,7 +98,7 @@ func uniquePaths(m int, n int) int {
 //	3 | 1  3  6
 //
 // 使用动态规划求解
-// 1. 确定 dp[] 含义: d[m][n] 表示 m x n 网格时，有多少条不同的路径
+// 1. 确定 dp[] 含义: d[m][n] 表示 走到 (m,n) 网格时，有多少条不同的路径
 // 2. 确定递推公式: d[m][n] = d[m-1][n] + d[m][n-1]
 // 3. 确定 dp[] 如何初始化: dp[m][1]=1, dp[1][n]=1
 // 4. 确定遍历顺序: 已知 dp[m][1]=1, dp[1][n]=1 求 d[m][n]，故为顺序遍历
