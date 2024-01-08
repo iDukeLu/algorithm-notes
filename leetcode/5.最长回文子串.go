@@ -50,23 +50,61 @@ package leetcode
 // @lc code=start
 func longestPalindrome(s string) string {
 
-	// 保存结果
-	dp := make([][]bool, 0)
-
-	// 单个字符也是回文
-	for i := range s {
-		dp[i][i] = true
+	dp := make([][]bool, len(s))
+	for i := range dp {
+		dp[i] = make([]bool, len(s))
 	}
 
-	for l := 2; l < len(s); l++ {
-
+	var result string
+	for i := len(s) - 1; i >= 0; i-- {
+		for j := i; j < len(s); j++ {
+			if s[i] == s[j] {
+				if j-i <= 1 {
+					dp[i][j] = true
+					if j+1-i >= len(result) {
+						result = s[i : j+1]
+					}
+				} else if dp[i+1][j-1] {
+					dp[i][j] = true
+					if j+1-i >= len(result) {
+						result = s[i : j+1]
+					}
+				}
+			}
+		}
 	}
 
-	return ""
+	return result
 }
 
 // @lc code=end
 
-// 两种解法：
-// - 动态规划
-// - 中心扩散
+// 使用动态规划求解：思路类似 647 题
+func longestPalindrome1(s string) string {
+
+	dp := make([][]bool, len(s))
+	for i := range dp {
+		dp[i] = make([]bool, len(s))
+	}
+
+	var result string
+	for i := len(s) - 1; i >= 0; i-- {
+		for j := i; j < len(s); j++ {
+			if s[i] == s[j] {
+				if j-i <= 1 {
+					dp[i][j] = true
+					if j+1-i >= len(result) {
+						result = s[i : j+1]
+					}
+				} else if dp[i+1][j-1] {
+					dp[i][j] = true
+					if j+1-i >= len(result) {
+						result = s[i : j+1]
+					}
+				}
+			}
+		}
+	}
+
+	return result
+}
