@@ -62,10 +62,7 @@ func countSubstrings(s string) int {
 	for i := len(s) - 1; i >= 0; i-- {
 		for j := i; j < len(s); j++ {
 			if s[i] == s[j] {
-				if j-i <= 1 {
-					dp[i][j] = true
-					result++
-				} else if dp[i+1][j-1] {
+				if j-i <= 1 || dp[i+1][j-1] {
 					dp[i][j] = true
 					result++
 				}
@@ -107,6 +104,34 @@ func countSubstrings1(s string) int {
 					dp[i][j] = true
 					result++
 				}
+			}
+		}
+	}
+
+	return result
+}
+
+// GTP 优化版本
+// 1. 内存优化：当前的代码为 dp 数组分配了一个完整的二维布尔数组。然而，实际上只需要一个一维数组即可，因为在计算过程中只需要访问当前行和上一行的数据。这样可以显著减少内存使用。
+// 2. 代码简化：可以合并两个 if 条件，减少代码的嵌套层次，使代码更加简洁。
+// 3. 去除不必要的条件：在当前的实现中，j-i <= 1 的情况已经涵盖了所有单个字符和两个相同字符的情况，这些情况下的子串总是回文的。因此，可以直接在这个条件下增加 result，无需额外的 dp[i][j] 检查。
+// 4. 代码可读性：添加注释可以使代码更易于理解和维护。
+func countSubstrings_gpt(s string) int {
+	n := len(s)
+	if n <= 1 {
+		return n
+	}
+
+	dp := make([]bool, n)
+	result := 0
+
+	for i := n - 1; i >= 0; i-- {
+		for j := i; j < n; j++ {
+			if s[i] == s[j] && (j-i <= 1 || dp[j-1]) {
+				dp[j] = true
+				result++
+			} else {
+				dp[j] = false
 			}
 		}
 	}
