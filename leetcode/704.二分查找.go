@@ -47,13 +47,13 @@ package leetcode
 
 // @lc code=start
 func search(nums []int, target int) int {
-	start, end := 0, len(nums)-1
-	for start <= end {
-		mid := start + (end-start)/2
-		if nums[mid] > target {
-			end = mid - 1
-		} else if nums[mid] < target {
-			start = mid + 1
+	left, right := 0, len(nums)-1
+	for left <= right {
+		mid := left + (right-left)/2
+		if nums[mid] < target {
+			left = mid + 1
+		} else if nums[mid] > target {
+			right = mid - 1
 		} else {
 			return mid
 		}
@@ -108,20 +108,20 @@ func search2(nums []int, target int) int {
 }
 
 // GPT 优化版本
-// 1. 避免无限循环：原代码中的 for 循环缺少一个明确的退出条件，这可能会导致无限循环。通常，在二分查找中，当 start 大于 end 时，表示没有找到目标元素，应该退出循环。
-// 2. 简化边界更新逻辑：在更新 start 和 end 指针时，无需额外的边界检查。这些检查是多余的，因为在二分查找的逻辑中，start 和 end 总是会保持在有效范围内。
-// 3. 循环条件和退出逻辑：使用 while 或 for 循环，当 start 小于等于 end 时持续查找，如果找到目标，则返回索引；否则，在循环结束后返回 -1。
+// 1. 避免无限循环：原代码中的 for 循环缺少一个明确的退出条件，这可能会导致无限循环。通常，在二分查找中，当 left 大于 end 时，表示没有找到目标元素，应该退出循环。
+// 2. 简化边界更新逻辑：在更新 left 和 end 指针时，无需额外的边界检查。这些检查是多余的，因为在二分查找的逻辑中，left 和 end 总是会保持在有效范围内。
+// 3. 循环条件和退出逻辑：使用 while 或 for 循环，当 left 小于等于 end 时持续查找，如果找到目标，则返回索引；否则，在循环结束后返回 -1。
 func search_gpt(nums []int, target int) int {
-	start, end := 0, len(nums)-1
-	for start <= end {
-		mid := start + (end-start)/2
+	left, right := 0, len(nums)-1
+	for left <= right {
+		mid := left + (right-left)/2
 		if nums[mid] == target {
 			return mid
 		}
-		if nums[mid] > target {
-			end = mid - 1
+		if nums[mid] < target {
+			left = mid + 1
 		} else {
-			start = mid + 1
+			right = mid - 1
 		}
 	}
 	return -1
