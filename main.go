@@ -1,18 +1,17 @@
 package main
 
-import (
-	"fmt"
-	"sort"
-
-	mysort "github.com/iDukeLu/algorithm-notes/algorithm/sort"
-)
+import "fmt"
 
 func main() {
-	arr := []int{56, 48, 58, 94, 87, 4, 5, 61, 5, 8, 74, 9, 84, 15, 94, 9, 4, 31, 41, 68, 7, 4, 6, 94, 16, 9, 8, 4}
-	fmt.Println(mysort.MergeSortStep(arr))
+	var u *U
+	a(u)
+}
 
-	sort.Ints(arr)
-	fmt.Println(arr)
+func a(u interface{}) {
+	fmt.Println(u == nil)
+}
+
+type U struct {
 }
 
 // func MergeSort(list []int) []int {
